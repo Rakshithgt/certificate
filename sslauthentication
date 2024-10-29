@@ -1,0 +1,42 @@
+sudo mkdir -p /var/www/gan2.xyz/html
+sudo chown -R $USER:$USER /var/www/gan2.xyz/html
+sudo chmod -R 755 /var/www/gan2.xyz
+vi /var/www/gan2.xyz/html/index.html
+<html>
+    <head>
+        <title>Welcome to rakshith g t!</title>
+    </head>
+    <body>
+        <h1>Success! the rakshith gt server is working!</h1>
+    </body>
+</html>
+
+sudo vi /etc/nginx/sites-available/gan2.xyz 
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/gan2.xyz/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name gan2.xyz www.gan2.xyz;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+
+sudo ln -s /etc/nginx/sites-available/gan2.xyz /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+
+sudo certbot certonly \
+  --agree-tos \
+  --email rakshithgt222@gmail@gmail.com \
+  --manual \
+  --preferred-challenges=dns \
+  -d *.gan2.xyz \
+  --server https://acme-v02.api.letsencrypt.org/directory
+  
+ If we need to get individual ssl certs we can perform following:
+ certbot --nginx
